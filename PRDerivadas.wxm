@@ -1,0 +1,727 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+PRACTICA 3
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Jonathan Fernández Mertanen
+Kevin Endrino Gomez
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Para quitarnos los ajustes que lanzan estos mensajes "rat: replaced x by y = z", utilizaremos ratprint:false. Si se quiere activar basta con cambiar a true
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 3 (Derivadas). Dibuja la semicircunferencia superior centrada en el origen y de radio 2. Dibuja el punto en el que la recta tangente a dicha circunferencia pasa por el punto (3,7) así como dicha recta tangente.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=x^2+y^2=4;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(f(x), y);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Tenemos en cuenta solo el positivo, ya que es el que nos interesa
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g(x):=sqrt(4-x^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(dg(x), diff(g(x), x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+t(x,a) := g(a)+dg(a)*(x-a);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ec: t(3, a)=7;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+to_poly_solve(sqrt(4-a^2)-((3-a)*a)/sqrt(4-a^2)=7, a);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+recta1(x) := ((x-3)/(-(21*sqrt(6)-6)/29-3))-((y-7)/(g(-(21*sqrt(6)-6)/29)-7));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    xrange=[-6,11],
+    yrange=[-2,8],
+    key="Semicircunferencia",
+    implicit(f(x), x, -5, 5, y, 0, 6),
+    point_type=filled_circle,
+    key="Punto de tangente",
+    points([[3,7], [-(21*sqrt(6)-6)/29, g(-(21*sqrt(6)-6)/29)]]),
+    color=red,
+    key="Recta tangente",
+    implicit(recta1(x), x, -4, 6, y, -2, 8)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 9 (Derivadas) Esboza la gráfica de la función f(x)=1/(x+2)^2 para x>0. Como consecuencia, determina las dimensiones del rectángulo de mayor área que se puede construir apoyado sobre el eje OX y con vértices opuestos en el origen y en un punto de la gráfica anterior.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=1/(x+2)^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    explicit(f(x), x, 0, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(g(x), x*f(x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(dg(x), diff(g(x), x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(dg(x), x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+En x = 2 tenemos el punto critico que buscabamos, por lo que el area mayor es:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+AreaMayor: 2*f(2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    explicit(f(x), x, 0, 10),
+    color=red,
+    line_width=2,
+    explicit(0, x, 0, 2),
+    explicit(f(2), x, 0, 2),
+    implicit(x, x, 0, 2, y, 0, f(2)),
+    implicit(x=2, x, 0, 3, y, 0, f(2))
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 3 (Taylor) Consideremos la función f(x)=e*(sin(x)+cos(x)) definida en los números reales. En este ejercicio vamos a ver los problemas que pueden acaecer cuando trabajamos con polinomios de Taylor sin aplicarles el comando ratdisrep.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=exp(sin(x)+cos(x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    key="Taylor",
+    explicit(f(x), x, -10, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Polinomio de taylor de f(x)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(tf(x), taylor(f(x), x, 0, 7));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Error que se produce
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+float(f(1)-tf(1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El error que aparece es 0 por que el polinomio de taylor lo toma completo, tendiendo a infinito, por lo que ambas funciones serian iguales.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(err(x), float(f(x)-tf(x)));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+err(1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Pero realmente si se produce un error. Utilizamos ratdisrep
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(tf1(x), ratdisrep(taylor(f(x), x, 0, 7)));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(1)-tf1(1), numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    yrange=[0,7],
+    xrange=[-4,4],
+    color=red,
+    key="f(x)",
+    explicit(f(x), x, -10, 10),
+    color=blue,
+    key="tf1(x) (Taylor)",
+    explicit(tf1(x), x, -10, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 1 (Areas) Calcula el área que queda entre el eje de abscisas y la gráfica de la función f(x)=arctan(x)(x^3−x+3)*e−x^2 entre el punto donde la función alcanza su mínimo relativo y en el que alcanza su máximo relativo.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=atan(x)*(x^3-x+3)*exp(-x^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(df(x), diff(f(x), x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    key="f(x)",
+    explicit(f(x), x, -5, 5),
+    color=red,
+    key="df(x)",
+    explicit(df(x), x, -5, 5)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a:find_root(df(x), x, -1, 0);
+b:find_root(df(x), x, 0, 1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    key="f(x)",
+    explicit(f(x), x, -5, 5),
+    color=red,
+    key="df(x)",
+    explicit(df(x), x, -5, 5),
+    point_type=filled_circle,
+    key="max & min",
+    points([[-0.6227235852360812,0],[0.6569810274741914,0]]),
+    line_type=dashes,
+    key="",
+    implicit(x-a, x, -1, 2, y, 0, f(a)),
+    implicit(x-b, x, -1, 2, y, 0, f(b))
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(f(x), x, 0, b);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: autoanswer    ] */
+
+/* [wxMaxima: input   start ] */
+romberg(f(x), x, a, 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Sumamos ambas areas tomando la segunda como positiva
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(f(x), x, 0, 0.6569810274741914)+-romberg(f(x), x, -0.6227235852360812, 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 3 (Areas) Divide un círculo de radio 1 en tres trozos del mismo área usando dos líneas verticales, simétricas respecto del eje de ordenadas.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=x^2+y^2=1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(f(x), y);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c1(x):= sqrt(1-x^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(untercio(y), integrate(c1(x), x, -1, y)-%pi/6);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: question  start ] */
+Question #1
+/* [wxMaxima: question  end   ] */
+/* [wxMaxima: answer  start ] */
+positive;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    explicit(untercio(y), y, -2, 2)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a: find_root(untercio(x), x, -0.5, 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    xrange=[-1.5,1.5],
+    yrange=[-1,2],
+    key="Semicircunferencia",
+    implicit(f(x), x, -1, 1, y, 0, 5),
+    key="",
+    color=red,
+    line_type=dashes,
+    implicit(x=-a, x, -1, 2, y, 0, c1(a)),
+    implicit(x=a, x, -1, 2, y, 0, c1(a))
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(c1(x), x, -1, a);
+romberg(c1(x), x, a, -a);
+romberg(c1(x), x, -a, 1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 2 (Curva) Calcula la longitud de una elipse de semiejes 10 y 15.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=(x^2/(10^2)+(y^2)/(15^2))=1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(f(x), y);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Calculando la longitud de la mitad superior y multiplicando por 2 obtendremos la longitud total
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f1(x):=(3*sqrt(100-x^2))/2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(df1(x), diff(f1(x), x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+quad_qags(sqrt(1+df1(x)^2), x, -10, 10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+39.66359897323203*2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Como la función es simetrica con respecto al eje X, la longitud es 39.66359897323203*2=79.32719794646406
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    color=red,
+    key="Circunferencia",
+    implicit(f(x), x, -10, 10, y, -15, 15),
+    line_type=dashes,
+    color=blue,
+    key="",
+    explicit(0, x, -10, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 4 (Curva) La gráfica de la función y=x^3+1/e divide el círculo centrado en el origen de radio 3 en dos partes. Calcula la longitud de la gráfica que queda dentro de la circunferencia.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):= x^3+1/%e;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(df(x), diff(f(x), x, 1));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c(x):=x^2+y^2=9;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c(x), y);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c1(x):= sqrt(9-x^2);
+c2(x):=-sqrt(9-x^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obtenemos los puntos de corte de la mitad superior e inferior
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a: find_root(-sqrt(9-x^2)+x^3+%e^(-1), 1, 2);
+b: find_root(sqrt(9-x^2)+x^3+%e^(-1), -2, -1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pts:[[a, f(a)], [b, f(b)]];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(sqrt(1+df(x)^2), x, b, a);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+La longitud es: 6.508683648320964
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    xrange=[-4,4],
+    yrange=[-4,4],
+    color=red,
+    key="Circunferencia",
+    implicit(c(x), x, -3, 3, y, -4, 4),
+    color=blue,
+    key="Longitud a medir",
+    explicit(f(x), x, b, a),
+    line_type=dashes,
+    key="",
+    explicit(f(x), x, -3, b),
+    explicit(f(x), x, a, 3),
+    point_type=filled_circle,
+    points(pts),
+    color=green,
+    explicit(f(x)-c1(x), x, -3, 3),
+    explicit(f(x)-c2(x), x, -3, 3),
+    implicit(f(x)-c2(x)=0, x, -3, 3, y, -4, 4),
+    implicit(f(x)-c1(x)=0, x, -3, 3, y, -4, 4)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 3 (Volumenes de revolucion) Sea f(x)=x^5+4x^3+2x^2+8. Calcula el volumen al girar dicha función alrededor del eje OX entre los valores donde f alcanza su máximo y su mínimo relativos.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):= x^5+4*x^3+2*x^2+8;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Calculamos su derivada para obtener los puntos criticos
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(df(x), diff(f(x),x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+df=0 y obtenemoslas soluciones
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(df(x), x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Cogemos las soluciones reales
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Las guardamos en una lista para la gráfica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+a:((2*sqrt(21))/5^(3/2)-2/5)^(1/3)-4/(5*((2*sqrt(21))/5^(3/2)-2/5)^(1/3))$;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pts:[[a, f(a)], [0, f(0)]]$;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    xrange=[-3,3],
+    yrange=[-1, 14],
+    key="f(x)", 
+    explicit(f(x), x, -2, 2),
+    color=red,
+    point_type=filled_circle,
+    key="",
+    points(pts),
+    line_type=dashes,
+    implicit(x-a, x, -1, 2, y, 0, f(a)),
+    implicit(x, x, -1, 1, y, 0, f(a))
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El volumen del solido de revolucion de nuestra funcion entre a y 0 es:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%pi*integrate(f(x)^2, x, a, 0),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 4 (Volumenes de revolucion) Halla mediante integración el volumen de un cono circular recto de altura h y con base una circunferencia de radio r.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h(h,r):=-h/r*(x-r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    yrange=[-1,8],
+    xrange=[-1,5],
+    explicit(h(4,3), x, 0, 3)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+El volumen de revolucion de cualquier cono de altura h y radio r es:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+2*%pi*integrate(x*h(h,r), x, 0, r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 1 (Areas de revolucion) Se suele llamar “La trompeta de Gabriel” a la figura que se obtiene al girar alrededor del eje de abscisas la gráfica de la función f(x)=1x entre 1 e infinito. Calcula el valor del volumen que encierra y la superficie de dicha figura.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=1/x;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(df(x), diff(f(x),x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Volumen que encierra (finito)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+%pi*integrate(f(x)^2, x, 1, inf),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Area de la superficie (infinito)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+2*%pi*integrate(f(x)*sqrt(1+df(x)^2), x, 1, inf), numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Como podemos observar, el volumen es un número finito, en concreto PI, mientras que el área de la superficie es infinita 
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    xrange=[1, 20],
+    yrange=[-2, 2],
+    key="Trompeta",
+    explicit(f(x), x, 1, 200),
+    key="",
+    explicit(-f(x), x, 1, 200)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 3 (Areas de revolucion) Halla mediante integración el área lateral de un cono circular recto de altura h y con base una circunferencia de radio r.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Procedemos igual que en el ejercicio 4 de volumenes
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h(h,r):=-h/r*(x-r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+h(4,3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+define(dh(x), diff(h(h,r), x));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    yrange=[-1,8],
+    xrange=[-1,5],
+    explicit(h(4,3), x, 0, 3)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+2*%pi*integrate(h(h,r)*sqrt(1+dh(x)^2), x, 0, r);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

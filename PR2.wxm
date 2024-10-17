@@ -1,0 +1,176 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Entrega 2 Calculo PR
+Jonathan Fernández Mertanen
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 4.2
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Funciones
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f(x):=(x^2/(1.5^2)+(y^2)/(5^2))=1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g(x):=x;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Puntos de corte
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Función que obtiene la parte derecha de el primer elemento de la lista que devuelve solve y la une a la lista pts.
+Luego hace lo mismo pero con el segundo elemento de la lista que devuelve solve
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pts:[]$;
+for i:1 thru 2 do(
+    pts:append([map(rhs,solve([1=f(x), y=x], [x, y])[i])], pts)
+)$;
+pts;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Gráfica
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xrange=[-1.5,1.5],
+    yrange=[-6, 6],
+    xaxis=true,
+    yaxis=true,
+    color=red,
+    implicit(f(x), x, -1.5, 1.5, y, -5, 5),
+    color=blue,
+    explicit(g(x), x, -1.5, 1.5),
+    point_size=1,
+    point_type=filled_circle,
+    points(pts)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 4.5 c)
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Funciones
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+circ1(x):= x^2+y^2=4;
+circ2(x):= (x+1)^2+(y-3)^2=6;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Puntos de corte
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Misma función que el apartado anterior
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pts:[]$;
+for i:1 thru 2 do(
+    pts:append([map(rhs,solve([circ1(x), circ2(x)], [x,y])[i])], pts)
+)$;
+pts;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    color=red,
+    nticks=100,
+    implicit(circ1(x), x, -2, 2, y, -2, 2),
+    points([0],[0]),
+    color=blue,
+    implicit(circ2(x), x, -3.5, 2, y, 0.5, 5.5),
+    points([-1],[3]),
+    point_type=filled_circle,
+    points(pts)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: section start ]
+Ejercicio 5.2
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dibujamos la función y acercamos hasta la zona en la que la función corta al eje x
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    yrange=[-10,10],
+    xrange=[0,2],
+    xaxis=true,
+    yaxis=true,
+    explicit(tan(x)-(1/x), x, 0, %pi/2)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Observamos que el corte se produce entre 0.5 y 1, por lo que utilizamos find_root entre estos valores
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+find_root(tan(x)-(1/x), x, 0.5 , 1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obtenemos el punto (0.8603335890193797, 0)
+La solucion encontrada es, por tanto, 0.8603335890193797
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    yrange=[-10,10],
+    xrange=[0,2],
+    xaxis=true,
+    yaxis=true,
+    explicit(tan(x)-(1/x), x, 0, %pi/2),
+    point_size=0.8,
+    point_type=filled_circle,
+    points([0.8603335890193797],[0])
+);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

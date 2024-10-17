@@ -1,0 +1,98 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Entrega CA PR Jonathan Fernandez
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+5.3
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    yrange=[-10,10],
+    explicit((x^2-x-2)/(x^2-4), x, -10, 10),
+    line_type=dots,
+    color=red,
+    explicit(1, x, -10, 10),
+    implicit(x=-2, x, -10, 10, y, -10, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+a) Su dominio es todo R menos -2 y 2, donde el denominador es 0
+b) Tiene una asintota vertical en x=-2 ya que la funcion tiende a +-infinito
+    Tiene una asintota horizontal en y=1 ya que la funcion tiende a +-infinito
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+5.7
+a) Simetria
+b) Acotadas
+c) Monotonas
+d) Asintotas
+e) Periodicas
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    yrange=[-5,5],
+    color=red,
+    key="cosh",
+    explicit(cosh(x), x, -2*%pi, 2*%pi),
+    color=green,
+    key="sinh",
+    explicit(sinh(x), x, -2*%pi, 2*%pi),
+    color=blue,
+    key="tanh",
+    explicit(tanh(x), x, -2*%pi, 2*%pi)
+  );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+a) cosh tiene simetria con respecto al eje Y
+    sinh tiene simetria con respecto al origen
+    tanh tiene simetria con respecto al origen
+b) cosh no esta acotada
+    sinh no esta acotada
+    tanh acotada en [-1,1]
+c) cosh es decreciente en x<0 y creciente en x>0
+    sinh es estrictamente creciente
+    tanh es estrictamente creciente
+d) existen asintotas en tanh, en -1 y 1
+e) Ninguna de las tres son periodicas
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+5.1
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    xaxis=true,
+    yaxis=true,
+    proportional_axes=xy,
+    key="3*x^5-2*x^2+4*x-14",
+    explicit(3*x^5-2*x^2+4*x-14, x, -10, 10)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+a) No tiene asintotas. Es estrictamente creciente. No es periodica. No esta acotada.
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$

@@ -1,0 +1,60 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.04.0 ] */
+/* [wxMaxima: title   start ]
+Ejercicios práctica 2
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+1. Programa, mediante un bloque, un método de Newton-Raphson en el que las entradas sean la función, la variable, el punto de partida, un error absoluto y un error relativo. Pon criterios de parada que eviten bucles infinitos si no hay convergencia.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+numer:true;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+NewtonRaphson(expr, var, ini, abs_error, rel_error):=
+    block(
+        [x0, x1],
+        local(f),
+        numer:true,
+        define(f(x), subst(x, var, expr)),
+        define(df(x), diff(f(x), x, 1)),
+        x0:ini,
+        for i:1 thru 30 do(
+            x1:x0-f(x0)/df(x0),
+            if(abs(x1-x0)<abs_error) then (return(x0)),
+            if(abs(x1-x0)/abs(x1)<rel_error) then (return(x0)),
+            x0:float(x1)
+        ),
+        x0
+    );
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+NewtonRaphson(exp(sin(x))-sin(exp(x))-1, x, 0.5, 10^-10, 10^-10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    yrange=[-5,5],
+    yaxis=true,
+    xaxis=true,
+    explicit(exp(x^2+x-1)-exp(x^2)-2, x, -2, 2)
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+NewtonRaphson(exp(x^2+x-1)-exp(x^2)-2, x, 1, 10^-6, 10^-6);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.04.0"$
